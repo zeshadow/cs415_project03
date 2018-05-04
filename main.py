@@ -46,11 +46,36 @@ def knapSack(F, capacity, valueList, weightList):
     # return F
 
 
+
+def subset(F,capacity,valueList, weightList):
+    subset = []
+    i = len(F) - 1  # Value list
+    j = capacity - 1  # Weight list
+
+    while i >= 0:
+
+        val = F[i][j]
+
+        if (valueList[i] + F[i - 1][j - weightList[i]]) == val:
+            subset.append(i + 1)
+            j = j - weightList[i]
+
+        i = i - 1
+
+        # done
+
+    return subset
+
+
+
+
+
+
 def main():
-    capacity = loadFile('KnapsackTestData/p00_c.txt')
+    capacity = loadFile('KnapsackTestData/p01_c.txt')
     capacity = int(capacity[0])
-    value = loadFile('KnapsackTestData/p00_v.txt')
-    weight = loadFile('KnapsackTestData/p00_w.txt')
+    value = loadFile('KnapsackTestData/p01_v.txt')
+    weight = loadFile('KnapsackTestData/p01_w.txt')
 
     # Number of items in the list
     numOfItems = len(value)
@@ -61,8 +86,12 @@ def main():
     #     vec[i][0] = 0
 
     knapSack(vec, capacity, value, weight)
-    for i in vec:
-        print i
+    sub = subset(vec, capacity, value, weight)
 
+    for i in vec:
+        print(i)
+
+    print("Optimal Value:" , vec[len(value)-1][capacity-1] )
+    print("Optimal Subset:" , sub)
 
 main()
